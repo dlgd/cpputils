@@ -31,19 +31,12 @@ void zip_equal(IteratorType1 begin1, IteratorType1 end1,
 
    while (it1 != end1 || it2 != end2)
    {
-      if (it1 != end1 && it2 != end2)
-      {
-         if (less(*it1, *it2))
-            output = op(&*(it1++), nullptr);
-         else if (less(*it2, *it1))
-            output = op(nullptr, &*(it2++));
-         else
-            output = op(&*(it1++), &*(it2++));
-      }
-      else if (it2 == end2)
+      if (it2 == end2 || less(*it1, *it2))
          output = op(&*(it1++), nullptr);
-      else
+      else if (it1 == end1 || less(*it2, *it1))
          output = op(nullptr, &*(it2++));
+      else
+         output = op(&*(it1++), &*(it2++));
    }
 }
 
